@@ -26,7 +26,8 @@
             margin-bottom: 1em;
         }
         img {
-            max-width: 100%;
+            max-width: 90vw; /* スマートフォンでの表示を考慮 */
+            max-height: 70vh;
             height: auto;
             border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
@@ -43,36 +44,45 @@
     <div class="container">
         <h1>クリックして画像を変更</h1>
         <img id="random-image" src="" alt="ランダム画像">
-        <p>画像は著作権フリーのものを使用しています。</p>
+        <p>画像をタップすると切り替わります。</p>
     </div>
 
     <script>
-        // 著作権フリーの画像リスト
-        const imageList = [
-            'https://images.pexels.com/photos/1485031/pexels-photo-1485031.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-            'https://images.pexels.com/photos/2412602/pexels-photo-2412602.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-            'https://images.pexels.com/photos/3387399/pexels-photo-3387399.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'
+        // --- 画像の設定 ---
+        // ここに画像ファイル名を追加してください (例: '1.jpg', '2.png', ...)
+        const imageFiles = [
+            '1.jpg',
+            '2.jpg',
+            '3.jpg',
+            '4.jpg',
+            '5.jpg'
         ];
+        // --------------------
 
         const imageElement = document.getElementById('random-image');
+        const imagePath = 'images/'; // imagesフォルダを指定
         let currentImageIndex = -1;
 
-        function displayRandomImage() {
-            let randomIndex;
-            // 現在表示されている画像と違う画像が選ばれるまでループ
-            do {
-                randomIndex = Math.floor(Math.random() * imageList.length);
-            } while (randomIndex === currentImageIndex);
-            
-            currentImageIndex = randomIndex;
-            imageElement.src = imageList[currentImageIndex];
+        // imagesフォルダに画像が1枚も登録されていない場合のメッセージ
+        if (imageFiles.length === 0) {
+            imageElement.alt = 'imagesフォルダに画像を追加してください。';
+        } else {
+            displayRandomImage();
         }
 
-        // 画像をクリックしたときに新しいランダムな画像を表示
-        imageElement.addEventListener('click', displayRandomImage);
+        function displayRandomImage() {
+            if (imageFiles.length === 0) return;
 
-        // ページ読み込み時に最初のランダム画像を表示
-        displayRandomImage();
+            let randomIndex;
+            do {
+                randomIndex = Math.floor(Math.random() * imageFiles.length);
+            } while (randomIndex === currentImageIndex && imageFiles.length > 1);
+            
+            currentImageIndex = randomIndex;
+            imageElement.src = imagePath + imageFiles[currentImageIndex];
+        }
+
+        imageElement.addEventListener('click', displayRandomImage);
     </script>
 </body>
 </html>
