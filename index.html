@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>デモ02 - Webアプリ</title>
+    <title>ランダム画像ギャラリー</title>
     <style>
         body {
             font-family: sans-serif;
@@ -13,9 +13,9 @@
             height: 100vh;
             margin: 0;
             background-color: #f0f0f0;
+            text-align: center;
         }
         .container {
-            text-align: center;
             padding: 2em;
             background-color: white;
             border-radius: 8px;
@@ -23,17 +23,56 @@
         }
         h1 {
             color: #333;
+            margin-bottom: 1em;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            cursor: pointer; /* クリックできることを示すカーソル */
         }
         p {
             color: #666;
+            font-size: 0.8em;
+            margin-top: 1em;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>こん��ちは、世界！</h1>
-        <p>これはGitHub PagesでホストされているシンプルなWebアプリケーションです。</p>
-        <p>Gemini CLIによって作成されました。</p>
+        <h1>クリックして画像を変更</h1>
+        <img id="random-image" src="" alt="ランダム画像">
+        <p>画像は著作権フリーのものを使用しています。</p>
     </div>
+
+    <script>
+        // 著作権フリーの画像リスト
+        const imageList = [
+            'https://images.pexels.com/photos/1485031/pexels-photo-1485031.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+            'https://images.pexels.com/photos/2412602/pexels-photo-2412602.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+            'https://images.pexels.com/photos/3387399/pexels-photo-3387399.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'
+        ];
+
+        const imageElement = document.getElementById('random-image');
+        let currentImageIndex = -1;
+
+        function displayRandomImage() {
+            let randomIndex;
+            // 現在表示されている画像と違う画像が選ばれるまでループ
+            do {
+                randomIndex = Math.floor(Math.random() * imageList.length);
+            } while (randomIndex === currentImageIndex);
+            
+            currentImageIndex = randomIndex;
+            imageElement.src = imageList[currentImageIndex];
+        }
+
+        // 画像をクリックしたときに新しいランダムな画像を表示
+        imageElement.addEventListener('click', displayRandomImage);
+
+        // ページ読み込み時に最初のランダム画像を表示
+        displayRandomImage();
+    </script>
 </body>
 </html>
